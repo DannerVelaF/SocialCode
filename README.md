@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
@@ -64,3 +65,15 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+=======
+# SocialCode
+X-inspired app with the goal of practicing my frontend skills with React and Inertia, and backend with Laravel. The app will allow users to do the following:
+- Create posts
+- Comment on posts
+- Like posts
+- Create and edit profiles
+- Chat with each other.
+![image](https://github.com/user-attachments/assets/cbe1db46-6c34-4969-8179-423ae9e0babe)
+
+![image](https://github.com/user-attachments/assets/269802f1-8e34-4491-b2cc-e6455e7e4801)
+>>>>>>> 386a660571f71aa3ff18976e50927a84739b4ba8
