@@ -6,12 +6,10 @@ dayjs.extend(relativeTime);
 import { FaComment, FaHeart } from "react-icons/fa";
 import { BsThreeDots } from "react-icons/bs";
 import axios from "axios";
-import { useForm } from "@inertiajs/react";
+import { Link, useForm } from "@inertiajs/react";
 import Comments from "./Comments";
 
 function Chirp({ auth, chirp }) {
-  console.log(chirp);
-
   const [edit, setEdit] = useState(false);
   const [showComments, setShowComments] = useState(chirp.comments.length === 0);
 
@@ -33,6 +31,8 @@ function Chirp({ auth, chirp }) {
     setCountLike(chirp.likes.length);
     setCountComment(chirp.comments.length);
   }, [chirp, auth.user.id]);
+
+  const [comments, setComments] = useState(chirp.comments);
 
   const handleLike = async () => {
     try {
@@ -79,7 +79,10 @@ function Chirp({ auth, chirp }) {
   return (
     <div className="flex justify-between w-full">
       <div className="flex w-full">
-        <div>
+        <Link
+          href={route("profile.show", { user_name: chirp.user.user_name })}
+          className="rounded-full w-12 h-12"
+        >
           <span
             className={`rounded-full overflow-hidden w-12 h-12 flex border-2 border-black ${
               chirp.user.profile.profile_picture === "ProfileDefault.png"
@@ -93,7 +96,7 @@ function Chirp({ auth, chirp }) {
               className="w-full h-full aspect-square"
             />
           </span>
-        </div>
+        </Link>
         <div className="ms-5 w-full">
           <div className="w-full">
             <div className="lg:flex gap-3 items-center">
@@ -151,34 +154,42 @@ function Chirp({ auth, chirp }) {
               {countComment > 0 ? <span>{countComment}</span> : ""}
             </div>
           </div>
-
           <Comments
             auth={auth}
             chirp_id={chirp.id}
             setCountComment={setCountComment}
             countComment={countComment}
+            setComments={setComments}
+            comments={comments}
           >
             {showComments &&
-              chirp.comments.map((comment, index) => (
+              comments.map((comment, index) => (
                 <div
                   className={`flex gap-4 items-center transition-all ease-out delay-75 transform`}
                   key={index}
                 >
                   <div className="flex justify-center items-center gap-5">
-                    <span
-                      className={`rounded-full overflow-hidden w-9 h-9 flex border-2 border-black ${
-                        comment.user.profile.profile_picture ===
-                        "ProfileDefault.png"
-                          ? "p-2"
-                          : ""
-                      }`}
+                    <Link
+                      href={route("profile.show", {
+                        user_name: comment.user.user_name,
+                      })}
+                      className="rounded-full w-9 h-9"
                     >
-                      <img
-                        src={`../../../storage/images/${comment.user.profile.profile_picture}`}
-                        alt=""
-                        className="w-full h-full aspect-square"
-                      />
-                    </span>
+                      <span
+                        className={`rounded-full overflow-hidden w-9 h-9 flex border-2 border-black ${
+                          comment.user.profile.profile_picture ===
+                          "ProfileDefault.png"
+                            ? "p-2"
+                            : ""
+                        }`}
+                      >
+                        <img
+                          src={`../../../storage/images/${comment.user.profile.profile_picture}`}
+                          alt=""
+                          className="w-full h-full aspect-square"
+                        />
+                      </span>
+                    </Link>
                     <div>
                       <div className="flex gap-2">
                         <h1 className="font-bold text-[16px]">

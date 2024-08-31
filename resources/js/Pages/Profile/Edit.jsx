@@ -6,13 +6,26 @@ import { FaRegCalendarAlt } from "react-icons/fa";
 import UpdateProfile from "./Partials/UpdateProfile";
 import { useState } from "react";
 import CountryFlag from "@/Components/CountryFlag";
+import Chirp from "../Chirp";
+import { useParams } from "react-router-dom";
 
 dayjs.extend(localeData);
 dayjs.locale("es");
-export default function Edit({ auth, mustVerifyEmail, status }) {
-  const { user } = auth;
+
+export default function Edit({
+  auth,
+  mustVerifyEmail,
+  status,
+  user,
+  profile,
+  chirps,
+  likes,
+}) {
   const formattedDate = dayjs(user.created_at).format("MMMM [del] YYYY");
   const [openEdit, setOpenEdit] = useState(false);
+  const { username } = useParams(); // Obtén el nombre de usuario de la URL
+  console.log(chirps);
+
   return (
     <AuthenticatedLayout
       user={auth.user}
@@ -22,7 +35,7 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
         </h2>
       }
     >
-      {openEdit && (
+      {auth.user.id === user.id && openEdit && (
         <UpdateProfile
           user={user}
           openEdit={openEdit}
@@ -36,13 +49,11 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
           <div className="font-medium">
             <div
               className={`flex items-center overflow-hidden w-[150px] h-[150px] bg-white border-4 border-black aspect-square rounded-full absolute left-12 top-[-100px] ${
-                user.profile.profile_picture === "ProfileDefault.png"
-                  ? "p-6"
-                  : ""
+                profile.profile_picture === "ProfileDefault.png" ? "p-6" : ""
               }`}
             >
               <img
-                src={`../../../storage/images/${user.profile.profile_picture}`}
+                src={`../../../storage/images/${profile.profile_picture}`}
                 className="w-full h-full aspect-square "
               />
             </div>
@@ -56,22 +67,32 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                   <FaRegCalendarAlt />
                   Se unió en {formattedDate}
                 </span>
-                <span className="mt-3 flex gap-1 items-center capitalize text-md">
-                  <CountryFlag countryName={user.profile.pais} />
-                  {user.profile.pais}
-                </span>
+                {profile.pais && (
+                  <span className="mt-3 flex gap-1 items-center capitalize text-md">
+                    <CountryFlag countryName={profile.pais} />
+                    {profile.pais}
+                  </span>
+                )}
               </div>
             </div>
           </div>
-          <button
-            className="border-2 hover:bg-slate-100 text-lg font-medium py-2 px-5 rounded-full"
-            onClick={() => setOpenEdit(true)}
-          >
-            Editar Perfil
-          </button>
+          {auth.user.id === user.id && (
+            <button
+              className="border-2 hover:bg-slate-100 text-lg font-medium py-2 px-5 rounded-full"
+              onClick={() => setOpenEdit(true)}
+            >
+              Editar Perfil
+            </button>
+          )}
         </div>
+
         <main className="px-12 ">
-          <p className="font-medium text-lg">{user.profile.biografia}</p>
+          <p className="font-medium text-lg">{profile.biografia}</p>
+          <div className="mt-10 flex flex-col gap-5 lg:px-10 w-full">
+            {chirps.map((chirp, index) => (
+              <Chirp auth={auth} chirp={chirp} key={index} />
+            ))}
+          </div>
         </main>
       </div>
     </AuthenticatedLayout>

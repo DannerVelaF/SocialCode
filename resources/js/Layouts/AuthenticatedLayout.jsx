@@ -24,11 +24,6 @@ export default function Authenticated({ user, children }) {
       icon: <MdOutlineEmail className="lg:text-xl text-2xl text-black" />,
       href: "dashboard",
     },
-    {
-      text: "Profile",
-      icon: <LuUser className="lg:text-xl text-2xl text-black" />,
-      href: "profile.show",
-    },
   ];
 
   return (
@@ -67,7 +62,7 @@ export default function Authenticated({ user, children }) {
               <Dropdown.Link
                 method="GET"
                 as="button"
-                href={route("profile.edit")}
+                href={route("profile.show", { user_name: user.user_name })}
                 className="flex items-center gap-2"
               >
                 <FaUser />
@@ -115,6 +110,7 @@ export default function Authenticated({ user, children }) {
           <div className="flex flex-col gap-4 ps-4">
             {links.map((link, index) => (
               <NavLink
+                method="GET"
                 key={index}
                 className="text-2xl border-none w-full rounded-s-full hover:bg-slate-100 flex items-center px-3 py-2 gap-3"
                 href={route(link.href)}

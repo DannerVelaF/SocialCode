@@ -3,7 +3,6 @@ import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import React from "react";
 import PrimaryButton from "@/Components/PrimaryButton";
-import DatePicker from "@/Components/DatePicker";
 
 function Login() {
   const { data, setData, errors, processing, post, reset } = useForm({

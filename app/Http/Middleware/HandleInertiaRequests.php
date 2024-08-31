@@ -34,7 +34,7 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $user ? $user->load('profile') : null,
+                'user' => $user ? $user->load(['profile', 'chirps.comments.user.profile', 'chirps.likes.user', 'chirps.user.profile']) : null,
             ],
         ];
     }

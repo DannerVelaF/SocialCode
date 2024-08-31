@@ -19,6 +19,9 @@ class CommentsController extends Controller
             'user_id' => Auth::id()
         ]);
 
-        return redirect(route('dashboard'));
+        return response()->json([
+            'success' => true,
+            'comment' => $comment->load('user.profile'), // cargar las relaciones necesarias
+        ]);
     }
 }

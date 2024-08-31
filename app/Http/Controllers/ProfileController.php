@@ -19,13 +19,21 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
-    public function show(Request $request): Response
+    public function show($user_name): Response
     {
+        $user = User::where('user_name', $user_name)
+            ->with(['profile', 'chirps.comments.user.profile', 'chirps.likes.user', 'chirps.user.profile']) // Cargar chirps del usuario con comentarios y likes
+            ->firstOrFail();
+
         return Inertia::render('Profile/Edit', [
-            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
+            'user' => $user,
+            'profile' => $user->profile,
+            'chirps' => $user->chirps, // Ya incluye los comentarios y likes
+            'mustVerifyEmail' => $user instanceof MustVerifyEmail,
             'status' => session('status'),
         ]);
     }
+
     public function edit(ProfileRequest $request): RedirectResponse
     {
 
@@ -38,7 +46,7 @@ class ProfileController extends Controller
             "pais" => $request->pais,
         ]);
 
-        return Redirect::route('profile.show');
+        return Redirect::route('profile.show', ['user_name' => $user->user_name]);
     }
 
     /**
