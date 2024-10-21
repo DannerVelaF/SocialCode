@@ -11,12 +11,10 @@ export default function Dashboard({ auth, chirps }) {
     reset();
   };
   const { user } = auth;
-  console.log(user);
-
   return (
     <AuthenticatedLayout user={auth.user}>
       <Head title="Social Code" />
-      <div className="md:p-12 p-8 ">
+      <div className="md:p-12 p-8 max-h-screen overflow-y-scroll">
         <div className="flex items-center gap-2">
           <div className="flex flex-col items-center">
             <span
@@ -49,7 +47,7 @@ export default function Dashboard({ auth, chirps }) {
           </button>
         </div>
 
-        <div className="mt-10 flex flex-col gap-5 lg:px-10 w-full">
+        <div className="mt-10 flex flex-col gap-5 lg:px-10 w-full overflow-y-hidden">
           {chirps.map((chirp, index) => (
             <Chirp auth={auth} chirp={chirp} key={index} />
           ))}

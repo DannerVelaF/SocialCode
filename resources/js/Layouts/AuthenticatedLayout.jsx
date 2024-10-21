@@ -1,13 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
 import { Link } from "@inertiajs/react";
 import { IoIosLogOut } from "react-icons/io";
 import { IoHomeOutline } from "react-icons/io5";
-import { LuHash } from "react-icons/lu";
 import { MdOutlineEmail } from "react-icons/md";
-import { LuUser } from "react-icons/lu";
 import { IoSearchSharp } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
 
@@ -22,13 +20,13 @@ export default function Authenticated({ user, children }) {
     {
       text: "Message",
       icon: <MdOutlineEmail className="lg:text-xl text-2xl text-black" />,
-      href: "dashboard",
+      href: "message.index",
     },
   ];
 
   return (
-    <div className="min-h-screen flex flex-col relative bg-[#fafafa]">
-      <header className="h-16 flex px-5 justify-between items-center bg-black text-white">
+    <div className="h-screen w-full flex flex-col  bg-[#fafafa] ">
+      <header className="h-[10%] flex px-5 py-4 justify-between items-center bg-black text-white">
         <Link className="flex gap-2 items-center" href="/">
           <ApplicationLogo />
           <span className="text-xl">Social Code</span>
@@ -81,9 +79,10 @@ export default function Authenticated({ user, children }) {
           </Dropdown>
         </div>
       </header>
-      <main className="lg:grid grid-cols-[280px_1fr] flex-1">
+
+      <div className="flex lg:h-[90%] h-[85%]">
         {/* Destop navbar */}
-        <nav className="flex-col hidden lg:flex border-e-2">
+        <nav className="flex-col hidden lg:flex border-e-2 ">
           <div className="mb-5 flex p-4 items-center">
             <div className="flex items-center">
               <span
@@ -121,24 +120,27 @@ export default function Authenticated({ user, children }) {
             ))}
           </div>
         </nav>
-
-        {/* Responsive navbar */}
-        <nav className="lg:hidden absolute bottom-0 left-0 w-full border-t-2 border-gray-300">
-          <div className="flex justify-between w-full p-4">
-            {links.map((link, index) => (
-              <NavLink
-                href={route(link.href)}
-                key={index}
-                method="GET"
-                className="hover:bg-slate-50"
-              >
-                {link.icon}
-              </NavLink>
-            ))}
+        <main className="w-full h-full flex-1 flex">
+          <div className="h-full flex-1 overflow-hidden" id="main">
+            {children}
           </div>
-        </nav>
-        {children}
-      </main>
+        </main>
+      </div>
+      {/* Responsive navbar */}
+      <nav className="lg:hidden border-e-2 flex items-center ">
+        <div className="flex justify-between w-full p-4 h-full">
+          {links.map((link, index) => (
+            <NavLink
+              href={route(link.href)}
+              key={index}
+              method="GET"
+              className="hover:bg-slate-50"
+            >
+              {link.icon}
+            </NavLink>
+          ))}
+        </div>
+      </nav>
     </div>
   );
 }

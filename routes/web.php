@@ -3,6 +3,7 @@
 use App\Http\Controllers\ChirpsController;
 use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Chirps;
 use App\Models\Comments;
@@ -44,6 +45,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/like/{id}', [LikeController::class, 'destroy'])->name('like.destroy');
 
     Route::post('/comment', [CommentsController::class, 'store'])->name('comment.store');
+
+    Route::get('/message', [MessageController::class, 'index'])->name('message.index');
+    Route::post('/message', [MessageController::class, 'messages'])->name('messages');
+    Route::get("/message/{user_name}", [MessageController::class, 'showChat'])->name('messages.show');
 });
 
 require __DIR__ . '/auth.php';
