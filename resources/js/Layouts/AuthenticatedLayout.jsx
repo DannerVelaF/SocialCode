@@ -139,7 +139,7 @@ export default function Authenticated({ user, children }) {
               <NavLink
                 method="GET"
                 key={index}
-                className="text-2xl border-none w-full rounded-s-full hover:bg-slate-100 flex items-center px-3 py-2 gap-3"
+                className=" text-2xl border-none w-full rounded-s-full hover:bg-slate-100 flex items-center px-3 py-2 gap-3"
                 href={route(link.href)}
               >
                 <span>{link.icon}</span>

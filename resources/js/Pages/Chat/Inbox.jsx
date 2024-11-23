@@ -2,6 +2,7 @@ import { Link, useForm } from "@inertiajs/react";
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
+import { IoArrowBack } from "react-icons/io5";
 
 function Inbox({ auth, receiverUser, chatMessages }) {
   const [messages, setMessages] = useState(chatMessages);
@@ -44,6 +45,12 @@ function Inbox({ auth, receiverUser, chatMessages }) {
   return (
     <div className="h-full flex flex-col overflow-hidden" id="inbox">
       <header className="p-4 flex items-center gap-2 border border-b-2 shadow-md h-[10%]">
+        <Link
+          className="lg:hidden block hover:bg-gray-100 p-2 rounded-full"
+          href={route("message.index")}
+        >
+          <IoArrowBack />
+        </Link>
         <Link
           href={route("profile.show", { user_name: receiverUser.user_name })}
         >

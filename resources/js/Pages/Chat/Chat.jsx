@@ -13,7 +13,6 @@ function Chat({ auth, receiverUser, messages, chats }) {
   const [showSearch, setShowSearch] = useState(false);
   const [users, setUsers] = useState([]);
   const [chatList, setChatList] = useState(chats); // Estado local para los chats
-
   const searchUser = async (term) => {
     if (term.length === 0) {
       setUsers([]);
@@ -61,12 +60,15 @@ function Chat({ auth, receiverUser, messages, chats }) {
       );
     });
   }, []);
-
   return (
     <Authenticated user={user}>
       <Head title="Chat" />
       <div className="flex justify-end flex-1 h-full">
-        <div className="w-full flex flex-1">
+        <div
+          className={`lg:w-[80%] lg:flex lg:flex-1 ${
+            receiverUser ? "block w-full" : "hidden"
+          } `}
+        >
           {receiverUser ? (
             <div className="w-full h-full">
               <Inbox
@@ -76,18 +78,22 @@ function Chat({ auth, receiverUser, messages, chats }) {
               />
             </div>
           ) : (
-            <div className="w-full flex flex-col gap-y-5 p-5">
-              <p className="text-4xl font-bold">Messages</p>
-              <p className="text-2xl">
+            <div className="w-full lg:flex flex-col gap-y-5 p-5">
+              <p className="lg:text-4xl font-bold">Messages</p>
+              <p className="lg:text-2xl">
                 You have no messages yet. Start a conversation with someone.
               </p>
-              <p className="text-lg text-gray-700">
+              <p className="lg:text-lg text-gray-700">
                 Select a user from the list below.
               </p>
             </div>
           )}
         </div>
-        <div className="flex items-center p-4 w-[20%] flex-col gap-y-5 py-5 ">
+        <div
+          className={`flex items-center p-4 lg:w-[20%]  w-full flex-col gap-y-5 py-5 ${
+            receiverUser ? "hidden" : "block"
+          }`}
+        >
           <div className="w-full relative">
             <button
               onClick={() => {
@@ -100,7 +106,7 @@ function Chat({ auth, receiverUser, messages, chats }) {
               <span className="font-bold text-sm">New Message</span>
             </button>
             {showSearch && (
-              <div className="absolute mt-2 -left-9 lg:left-0 bg-white border lg:w-full w-[200px] h-[400px] border-gray-300 rounded-lg p-2 shadow-sm">
+              <div className="absolute mt-2 w-full lg:left-0 bg-white border  lg:w-[200px] lg:h-[400px] border-gray-300 rounded-lg p-2 shadow-sm">
                 <input
                   type="text"
                   placeholder="Search a user"
