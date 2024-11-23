@@ -109,4 +109,18 @@ class ProfileController extends Controller
         }
         return redirect()->route('dashboard');
     }
+
+    public function searchUser($term)
+    {
+        if (empty($term)) {
+            return response()->json([]); // O puedes devolver un mensaje como 'No hay resultados'
+        }
+
+        $users = User::where('user_name', 'like', "$term%")
+            ->take(10)
+            ->with('profile')
+            ->get();
+
+        return response()->json($users);
+    }
 }

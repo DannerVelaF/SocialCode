@@ -12,15 +12,7 @@ import { useParams } from "react-router-dom";
 dayjs.extend(localeData);
 dayjs.locale("es");
 
-export default function Edit({
-  auth,
-  mustVerifyEmail,
-  status,
-  user,
-  profile,
-  chirps,
-  likes,
-}) {
+export default function Edit({ auth, user, profile, chirps, likes }) {
   const formattedDate = dayjs(user.created_at).format("MMMM [del] YYYY");
   const [openEdit, setOpenEdit] = useState(false);
   const { username } = useParams(); // Obtén el nombre de usuario de la URL
@@ -43,7 +35,7 @@ export default function Edit({
         />
       )}
       <Head title="Profile" />
-      <div className="flex flex-col ">
+      <div className="flex flex-col">
         <div className="h-80 bg-slate-200 border-b "></div>
         <div className="px-12 relative flex justify-between items-center">
           <div className="font-medium">

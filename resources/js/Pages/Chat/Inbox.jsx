@@ -1,4 +1,4 @@
-import { useForm } from "@inertiajs/react";
+import { Link, useForm } from "@inertiajs/react";
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
@@ -44,19 +44,23 @@ function Inbox({ auth, receiverUser, chatMessages }) {
   return (
     <div className="h-full flex flex-col overflow-hidden" id="inbox">
       <header className="p-4 flex items-center gap-2 border border-b-2 shadow-md h-[10%]">
-        <span
-          className={`rounded-full overflow-hidden w-10 h-10 flex bg-white ${
-            receiverUser.profile.profile_picture === "ProfileDefault.png"
-              ? "p-2"
-              : ""
-          }`}
+        <Link
+          href={route("profile.show", { user_name: receiverUser.user_name })}
         >
-          <img
-            src={`../../../storage/images/${receiverUser.profile.profile_picture}`}
-            alt=""
-            className="w-full h-full aspect-square"
-          />
-        </span>
+          <span
+            className={`rounded-full overflow-hidden w-10 h-10 flex bg-white ${
+              receiverUser.profile.profile_picture === "ProfileDefault.png"
+                ? "p-2"
+                : ""
+            }`}
+          >
+            <img
+              src={`../../../storage/images/${receiverUser.profile.profile_picture}`}
+              alt=""
+              className="w-full h-full aspect-square"
+            />
+          </span>
+        </Link>
         <div className="flex items-center gap-2">
           <p className="font-bold text-xl">{receiverUser.name}</p>
           {receiverUser.id === auth.user.id ? <span>(You)</span> : ""}
@@ -106,8 +110,10 @@ function Inbox({ auth, receiverUser, chatMessages }) {
           onChange={(e) => setData("message", e.target.value)}
         />
         <button
-          className="bg-black py-2 px-5 text-white rounded-lg"
-          disabled={processing}
+          className={`bg-black py-2 px-5 text-white rounded-lg transition-all ease-out delay-200 ${
+            data.message === "" ? "opacity-50" : ""
+          }`}
+          disabled={processing || data.message === ""}
           onClick={onsubmit}
         >
           Send

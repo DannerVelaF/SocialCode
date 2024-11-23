@@ -49,6 +49,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/message', [MessageController::class, 'index'])->name('message.index');
     Route::post('/message', [MessageController::class, 'messages'])->name('messages');
     Route::get("/message/{user_name}", [MessageController::class, 'showChat'])->name('messages.show');
+
+    Route::get('/user/{user_name}', [ProfileController::class, 'searchUser'])->name('user.search');
 });
 
 require __DIR__ . '/auth.php';

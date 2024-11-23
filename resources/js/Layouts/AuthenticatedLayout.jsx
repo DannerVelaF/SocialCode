@@ -2,13 +2,15 @@ import { useEffect, useState } from "react";
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import { IoIosLogOut } from "react-icons/io";
 import { IoHomeOutline } from "react-icons/io5";
 import { MdOutlineEmail } from "react-icons/md";
 import { IoSearchSharp } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
-
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { showCustomToast } from "@/Components/Notifiaction";
 export default function Authenticated({ user, children }) {
   const links = [
     {
@@ -24,8 +26,34 @@ export default function Authenticated({ user, children }) {
     },
   ];
 
+  const url = usePage();
+
+  useEffect(() => {
+    const { id } = user;
+    Echo.private("App.Models.User." + id).notification((e) => {
+      if (!url.url.includes("message")) {
+        const { message } = e.message;
+        const { name, user_name } = e.sender;
+        const { profile_picture } = e.sender.profile;
+        showCustomToast(profile_picture, name, message, user_name);
+      }
+    });
+  }, [url]);
+
   return (
-    <div className="h-screen w-full flex flex-col  bg-[#fafafa] ">
+    <div className="h-screen w-full flex flex-col relative  bg-[#fafafa] ">
+      <ToastContainer
+        position="bottom-left"
+        autoClose={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        limit={5}
+        pauseOnFocusLoss
+        draggable={false}
+        theme="dark"
+        style={{ position: "absolute", bottom: "1rem", left: "1rem" }}
+      />
       <header className="h-[10%] flex px-5 py-4 justify-between items-center bg-black text-white">
         <Link className="flex gap-2 items-center" href="/">
           <ApplicationLogo />
@@ -121,7 +149,7 @@ export default function Authenticated({ user, children }) {
           </div>
         </nav>
         <main className="w-full h-full flex-1 flex">
-          <div className="h-full flex-1 overflow-hidden" id="main">
+          <div className="h-full flex-1 overflow-auto" id="main">
             {children}
           </div>
         </main>

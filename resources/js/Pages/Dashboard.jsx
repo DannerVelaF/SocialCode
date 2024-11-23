@@ -14,7 +14,7 @@ export default function Dashboard({ auth, chirps }) {
   return (
     <AuthenticatedLayout user={auth.user}>
       <Head title="Social Code" />
-      <div className="md:p-12 p-8 max-h-screen overflow-y-scroll">
+      <div className="md:p-12 p-8 max-h-screen ">
         <div className="flex items-center gap-2">
           <div className="flex flex-col items-center">
             <span
