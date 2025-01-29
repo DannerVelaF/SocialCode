@@ -20,10 +20,10 @@
 ## Instalación
 
 1. Clona el repositorio:
-   ```bash
-   git clone https://github.com/DannerVelaF/SocialCode.git
-   cd SocialCode
-    ```
+```bash
+git clone https://github.com/DannerVelaF/SocialCode.git
+cd SocialCode
+```
 
 2. Instala las dependencias:
 
